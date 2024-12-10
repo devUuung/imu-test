@@ -6,18 +6,7 @@ public class CollidEvent : MonoBehaviour
 {
     public GameObject TimeCanvas;
     public GameObject FailCanvas;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    public GameObject ZombieSpawner;
     // OnTriggerEnter 메서드 추가
     void OnTriggerEnter(Collider other) 
     {
@@ -26,6 +15,7 @@ public class CollidEvent : MonoBehaviour
             Destroy(other.gameObject);
             TimeCanvas.SetActive(false);
             FailCanvas.SetActive(true);
+            ZombieSpawner.SetActive(false);
         }
     }
 }
