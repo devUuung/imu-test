@@ -5,13 +5,13 @@ using UnityEngine.Android;
 
 public class BLEManager : MonoBehaviour
 {
-    [SerializeField] OVRSkeleton rightHandSkeleton; // ¿À¸¥¼Õ °üÀý Á¤º¸
+    [SerializeField] OVRSkeleton rightHandSkeleton; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     [SerializeField] GameObject bullet;
-    [SerializeField] float waitingTime = 3f; // »ç¿îµå ¹ß»ç ´ë±â ½Ã°£
+    [SerializeField] float waitingTime = 3f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
     private string deviceName = "Nano34_BLE";
-    private string serviceUUID = "180C"; // ArduinoÀÇ »ç¿ëÀÚ Á¤ÀÇ ¼­ºñ½º UUID
-    private string characteristicUUID = "2A56"; // Æ®¸®°Å Æ¯¼º UUID
+    private string serviceUUID = "180C"; // Arduinoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UUID
+    private string characteristicUUID = "2A56"; // Æ®ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ UUID
     public Transform targetObject;
 
     private string connectedDeviceAddress = null;
@@ -42,12 +42,12 @@ public class BLEManager : MonoBehaviour
 
         if (rightHandSkeleton != null && rightHandSkeleton.IsDataValid && timer > waitingTime)
         {
-            // µ¥½Ãº§ÀÌ ÀÓ°è°ªÀ» ³ÑÀ¸¸é ¹ß»ç
+            // ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ ï¿½Ó°è°ªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
             if (trigger == 1)
             {
                 Debug.Log($"Shoot");
-                Shoot(); // ÃÑ ¹ß»ç ÇÔ¼ö È£Ãâ
-                timer = 0; // Å¸ÀÌ¸Ó ¸®¼Â
+                Shoot(); // ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½Ô¼ï¿½ È£ï¿½ï¿½
+                timer = 0; // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
     }
@@ -86,50 +86,28 @@ public class BLEManager : MonoBehaviour
         BluetoothLEHardwareInterface.SubscribeCharacteristicWithDeviceAddress(address, serviceUUID, characteristicUUID, null, (deviceAddress, characteristic, data) => {
             string receivedString = Encoding.UTF8.GetString(data);
             Debug.Log("Received string: " + receivedString);
-
-            string[] values = receivedString.Split(',');
-            if (values.Length == 3)
+            if (receivedString == "Shoot")
             {
-                if (float.TryParse(values[0], out float roll) &&
-                    float.TryParse(values[1], out float pitch) &&
-                    float.TryParse(values[2], out float trigger))
-                {
-                    currentRoll = Mathf.LerpAngle(currentRoll, roll, 0.1f);
-                    currentPitch = Mathf.LerpAngle(currentPitch, pitch, 0.1f);
-
-                    Quaternion targetRotation = Quaternion.Euler(180, roll + 90, currentPitch - 100);
-                    if (targetObject != null)
-                    {
-                        targetObject.rotation = targetRotation;
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Failed to parse data.");
-                }
-            }
-            else
-            {
-                Debug.LogError("Received data does not contain 3 values.");
+                Shoot();
             }
         });
     }
     void Shoot()
     {
-        // ¼ÕÀÇ Áß½É À§Ä¡ °è»ê
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ß½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
         Vector3 handPosition = CalculateHandCenter();
         Vector3 gunDirection = targetObject.transform.right;
-        // ÃÑ±¸ ¹æÇâ °è»ê
+        // ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         
-        // ÃÑ¾ËÀÌ ¹ß»çµÉ À§Ä¡ °è»ê (¼ÕÀÇ ¾ÕÂÊ)
+        // ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         float distanceFromHand = 0.1f;
         Vector3 bulletSpawnPosition = handPosition + gunDirection * distanceFromHand;
 
-        // ÃÑ¾Ë »ý¼º
+        // ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject newBullet = Instantiate(bullet, bulletSpawnPosition, Quaternion.LookRotation(gunDirection));
 
-        // ÃÑ¾Ë ¼Óµµ ¼³Á¤
-        Vector3 bulletVelocity = gunDirection * 20f; // ¼Óµµ´Â ¿øÇÏ´Â °ªÀ¸·Î Á¶Á¤
+        // ï¿½Ñ¾ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
+        Vector3 bulletVelocity = gunDirection * 20f; // ï¿½Óµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         newBullet.GetComponent<Bullet>().SetVelocity(bulletVelocity);
     }
 
@@ -140,7 +118,7 @@ public class BLEManager : MonoBehaviour
 
         foreach (var bone in rightHandSkeleton.Bones)
         {
-            // °üÀýÀÌ º¸ÀÌ´Â °æ¿ì¿¡¸¸ °è»ê¿¡ Æ÷ÇÔ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ê¿¡ ï¿½ï¿½ï¿½ï¿½
             if (bone.Transform != null && bone.Transform.gameObject.activeSelf && IsBoneVisible(bone))
             {
                 handCenter += bone.Transform.position;
@@ -150,16 +128,16 @@ public class BLEManager : MonoBehaviour
 
         if (boneCount > 0)
         {
-            return handCenter / boneCount; // À¯È¿ÇÑ °üÀýµéÀÇ Æò±Õ À§Ä¡ ¹ÝÈ¯
+            return handCenter / boneCount; // ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½È¯
         }
         else
         {
-            Debug.LogWarning("¼ÕÀÇ °üÀý µ¥ÀÌÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
-            return Vector3.zero; // À¯È¿ÇÑ °üÀýÀÌ ¾øÀ» °æ¿ì 0 ¹ÝÈ¯
+            Debug.LogWarning("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+            return Vector3.zero; // ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 0 ï¿½ï¿½È¯
         }
     }
 
-    // °üÀýÀÌ º¸ÀÌ´ÂÁö ¿©ºÎ¸¦ ÆÇ´ÜÇÏ´Â ÇÔ¼ö (°¡½Ã¼º ¿©ºÎ¸¦ Ã¼Å©)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ç´ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½ (ï¿½ï¿½ï¿½Ã¼ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ Ã¼Å©)
     bool IsBoneVisible(OVRBone bone)
     {
         return bone.Transform.gameObject.activeInHierarchy;
