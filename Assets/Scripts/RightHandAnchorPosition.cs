@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class RightHandAnchorPosition : MonoBehaviour
 {
-    public Transform RightHandAnchor; // RightHandAnchor ¿ÀºêÁ§Æ®ÀÇ Transform
+    public Transform RightHandAnchor; // RightHandAnchorì˜ Transform
 
     void Update()
     {
         if (RightHandAnchor != null)
         {
-            // RightHandAnchorÀÇ À§Ä¡¸¦ °¡Á®¿È
+            // RightHandAnchorì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜´
             Vector3 position = RightHandAnchor.position;
-            // ¿¹½Ã: ÇöÀç ¿ÀºêÁ§Æ®ÀÇ À§Ä¡¸¦ RightHandAnchor À§Ä¡·Î ¼³Á¤
+            // ë°©í–¥: RightHandAnchorì˜ ìœ„ì¹˜ì— ë”°ë¼ ì´ ê°ì²´ì˜ ìœ„ì¹˜ë¥¼ ì„¤ì •
             transform.position = position;
+            transform.rotation = RightHandAnchor.rotation; // ë°©í–¥ë„ ë”°ë¼ê°€ê²Œ ì„¤ì •
         }
     }
 }

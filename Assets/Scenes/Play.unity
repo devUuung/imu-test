@@ -4706,7 +4706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0143020c58af41bd358e9cbe757c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightHandAnchor: {fileID: 887553029}
+  RightHandAnchor: {fileID: 960109232}
 --- !u!1 &581156917
 GameObject:
   m_ObjectHideFlags: 0
