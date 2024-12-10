@@ -5,6 +5,7 @@ using UnityEngine;
 public class CollidEvent : MonoBehaviour
 {
     public GameObject TimeCanvas;
+    public GameObject FailCanvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,12 @@ public class CollidEvent : MonoBehaviour
     // OnTriggerEnter 메서드 추가
     void OnTriggerEnter(Collider other) 
     {
-        TimeCanvas.SetActive(false);
+        if (other.gameObject.name == "Zombie1(Clone)") 
+        {
+            Destroy(other.gameObject);
+            TimeCanvas.SetActive(false);
+            FailCanvas.SetActive(true);
+        }
     }
 }
 
