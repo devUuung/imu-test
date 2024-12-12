@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Fusion;
 using Meta.XR.MultiplayerBlocks.Shared;
 
 namespace Meta.XR.MultiplayerBlocks.Fusion
