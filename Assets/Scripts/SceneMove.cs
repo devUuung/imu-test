@@ -2,21 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Meta.XR.MultiplayerBlocks.Shared;
 
-public class SceneMove : MonoBehaviour
+namespace Meta.XR.MultiplayerBlocks.Fusion
 {
-    public void ToMain()
+    public class SceneMove : MonoBehaviour
     {
-        SceneManager.LoadScene(0);
-    }
+        private NetworkRunner _networkRunner;
+        private void OnEnable()
+        {
+            FusionBBEvents.OnSceneLoadDone += OnLoaded;
+        }
 
-    public void ToPlay()
-    {
-        SceneManager.LoadScene(1);
-    }
+        private void OnDisable()
+        {
+            FusionBBEvents.OnSceneLoadDone -= OnLoaded;
+        }
 
-    public void ToAim()
-    {
-        SceneManager.LoadScene(2);
+        private void OnLoaded(NetworkRunner networkRunner)
+        {
+            _networkRunner = networkRunner;
+        }
+        public void ToMain()
+        {
+            _networkRunner.LoadScene(SceneRef.FromIndex(0), LoadSceneMode.Additive);
+        }
+
+        public void ToPlay()
+        {
+            _networkRunner.LoadScene(SceneRef.FromIndex(1), LoadSceneMode.Additive);
+        }
+
+        public void ToAim()
+        {
+            _networkRunner.LoadScene(SceneRef.FromIndex(2), LoadSceneMode.Additive);
+        }
     }
 }
