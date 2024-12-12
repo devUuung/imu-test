@@ -1,48 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
+using Meta.XR.MultiplayerBlocks.Shared;
 
-public class ZombieSpawner : MonoBehaviour
+namespace Meta.XR.MultiplayerBlocks.Fusion
 {
-    public GameObject zombiePrefab;       // »ý¼ºÇÒ Á»ºñ ÇÁ¸®ÆÕ
-    public float spawnRadius = 10f;       // »ý¼º ¹üÀ§ (¹ÝÁö¸§)
-    public float spawnAngleMin = -45f;    // ÃÖ¼Ò °¢µµ (Ä«¸Þ¶ó ¿ÞÂÊ)
-    public float spawnAngleMax = 45f;     // ÃÖ´ë °¢µµ (Ä«¸Þ¶ó ¿À¸¥ÂÊ)
-    public float spawnHeight = 0f;        // »ý¼º ³ôÀÌ (Áö¸é¿¡¼­)
-    public float spawnInterval = 5f;       // ½ºÆù °£°Ý (ÃÊ)
-    public float safeRadius = 2f;         // Ä«¸Þ¶ó ÁÖº¯ ¾ÈÀü ¿µ¿ª ¹ÝÁö¸§
-
-    private float timer = 0f;
-
-    private void Update()
+    public class ZombieSpawner : MonoBehaviour
     {
-        timer += Time.deltaTime;
+        public GameObject zombiePrefab;       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        public float spawnRadius = 10f;       // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+        public float spawnAngleMin = -45f;    // ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ (Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½)
+        public float spawnAngleMax = 45f;     // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ (Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+        public float spawnHeight = 0f;        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½é¿¡ï¿½ï¿½)
+        public float spawnInterval = 5f;       // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½)
+        public float safeRadius = 2f;         // Ä«ï¿½Þ¶ï¿½ ï¿½Öºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        if (timer >= spawnInterval)
+        private float timer = 0f;
+        public NetworkRunner _networkRunner;
+        private void OnEnable()
         {
-            SpawnZombie();
-            timer = 0f;
+            FusionBBEvents.OnSceneLoadDone += OnLoaded;
         }
-    }
 
-    public void SpawnZombie()
-    {
-        float randomAngle = Random.Range(spawnAngleMin, spawnAngleMax);
-        Vector3 spawnDirection = Quaternion.Euler(0f, randomAngle, 0f) * GameObject.Find("IMU").transform.forward;
-
-        // ¾ÈÀü ¿µ¿ª ¹Û¿¡¼­ »ý¼º À§Ä¡ Ã£±â (ÃÖ´ë 10¹ø ½Ãµµ)
-        Vector3 spawnPosition;
-        int attempts = 0;
-        do
+        private void OnDisable()
         {
-            spawnPosition = GameObject.Find("IMU").transform.position + spawnDirection * spawnRadius + Vector3.up * spawnHeight;
-            attempts++;
-        } while (Vector3.Distance(spawnPosition, GameObject.Find("IMU").transform.position) < safeRadius && attempts < 10);
+            FusionBBEvents.OnSceneLoadDone -= OnLoaded;
+        }
 
-        // Á»ºñ »ý¼º (¾ÈÀü ¿µ¿ª ¹Û¿¡¼­¸¸)
-        if (attempts < 10)
+        private void OnLoaded(NetworkRunner networkRunner)
         {
-            Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
+            _networkRunner = networkRunner;
+        }
+
+        private void Update()
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= spawnInterval)
+            {
+                SpawnZombie();
+                timer = 0f;
+            }
+        }
+
+        public void SpawnZombie()
+        {
+            float randomAngle = Random.Range(spawnAngleMin, spawnAngleMax);
+            Vector3 spawnDirection = Quaternion.Euler(0f, randomAngle, 0f) * GameObject.Find("IMU").transform.forward;
+
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ Ã£ï¿½ï¿½ (ï¿½Ö´ï¿½ 10ï¿½ï¿½ ï¿½Ãµï¿½)
+            Vector3 spawnPosition;
+            int attempts = 0;
+            do
+            {
+                spawnPosition = GameObject.Find("IMU").transform.position + spawnDirection * spawnRadius + Vector3.up * spawnHeight;
+                attempts++;
+            } while (Vector3.Distance(spawnPosition, GameObject.Find("IMU").transform.position) < safeRadius && attempts < 10);
+
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½)
+            if (attempts < 10)
+            {
+                // Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
+                _networkRunner.Spawn(zombiePrefab, spawnPosition, Quaternion.identity);
+            }
         }
     }
 }

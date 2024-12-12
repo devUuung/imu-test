@@ -4876,13 +4876,14 @@ GameObject:
   - component: {fileID: 594940224}
   - component: {fileID: 594940223}
   - component: {fileID: 594940222}
+  - component: {fileID: 594940227}
   m_Layer: 0
   m_Name: '[BuildingBlock] Network Manager'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &594940221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5024,6 +5025,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &594940227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594940220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8edbe7108d8a43ab838cf8b8d9453df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &603776672
 GameObject:
   m_ObjectHideFlags: 0
@@ -6787,6 +6800,8 @@ GameObject:
   - component: {fileID: 927692239}
   - component: {fileID: 927692243}
   - component: {fileID: 927692238}
+  - component: {fileID: 927692244}
+  - component: {fileID: 927692245}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -6923,6 +6938,40 @@ MonoBehaviour:
   TimeCanvas: {fileID: 369640745}
   FailCanvas: {fileID: 857499649}
   ZombieSpawner: {fileID: 1584197040}
+--- !u!114 &927692244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927692237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3676035030
+  ObjectInterest: 1
+  Flags: 786433
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 927692245}
+--- !u!114 &927692245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927692237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 1
 --- !u!1 &935095291
 GameObject:
   m_ObjectHideFlags: 0
@@ -11707,6 +11756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1584197041}
   - component: {fileID: 1584197042}
+  - component: {fileID: 1584197043}
   m_Layer: 0
   m_Name: ZombieSpawner
   m_TagString: Untagged
@@ -11748,6 +11798,24 @@ MonoBehaviour:
   spawnHeight: 0
   spawnInterval: 5
   safeRadius: 2
+  _networkRunner: {fileID: 0}
+--- !u!114 &1584197043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584197040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1505036213
+  ObjectInterest: 1
+  Flags: 786433
+  NestedObjects: []
+  NetworkedBehaviours: []
 --- !u!1 &1585448108
 GameObject:
   m_ObjectHideFlags: 0

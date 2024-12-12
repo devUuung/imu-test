@@ -1723,6 +1723,8 @@ GameObject:
   - component: {fileID: 7389507112651452681}
   - component: {fileID: -4833706186423506878}
   - component: {fileID: -2604486035040747422}
+  - component: {fileID: -1586142512901480350}
+  - component: {fileID: -2781603185909930386}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Untagged
@@ -1796,6 +1798,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   lifetime: 3
   HitParticle: {fileID: 0}
+  microphone: {fileID: 0}
 --- !u!136 &-2604486035040747422
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1819,6 +1822,40 @@ CapsuleCollider:
   m_Height: 1.8516047
   m_Direction: 1
   m_Center: {x: 0, y: 0.908718, z: 0}
+--- !u!114 &-1586142512901480350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3626568681
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -2781603185909930386}
+--- !u!114 &-2781603185909930386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 1
 --- !u!1 &4710940672626480558
 GameObject:
   m_ObjectHideFlags: 0
